@@ -1,0 +1,14 @@
+<hr>
+{% for post in posts %}
+<i>Title:<a href="/viewpost/{{ post[0] }}">{{ post[1] }}</a>
+<p>
+<i>Lähettäjä:</i> {{ post[3] }}
+<p>
+<hr>
+{% endfor %}
+{% if session.user_id %}
+You are logged in.
+<a href="/new">New post</a> | <a href="/logout">Log out</a>
+{% else %}
+<a href="/login">Log in</a>
+{% endif %}
