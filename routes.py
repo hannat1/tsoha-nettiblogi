@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, url_for
 import posts, users
 
 @app.route("/")
@@ -55,5 +55,34 @@ def register():
 @app.route("/viewpost/<int:post_id>")
 def view_post(post_id):
     list = posts.selectpost(post_id)
-    print(list)
     return render_template("/post.html", post=list)
+
+@app.route("/viewprofile/<int:user_id>")
+def view_profile(user_id):
+    list = posts.viewprofile(user_id)
+    list_posts = posts.users_posts(user_id)
+    list_followers_ids = posts.followers_ids(user_id)
+    list_followers_names = posts.followers_names(user_id)
+    current_user = users.user_id()
+    cannot_follow =False
+    if current_user == user_id:
+        cannot_follow = True
+
+    print(current_user, "current user")
+    print(list_followers_ids, "ids")
+    follow = False
+    for i in list_followers_ids:
+        if current_user == i[0]:
+            follow = True
+            
+    return render_template("/profile.html", profile=list, posts=list_posts, followers_amount=len(list_followers_ids), list_followers_names = list_followers_names, list_followers_ids= list_followers_ids, follow = follow, cannot_follow=cannot_follow)
+
+@app.route("/follow/<int:user_id>")
+def follow(user_id):
+    user = user_id
+    if posts.follow(user):
+        return redirect(url_for("view_profile", user_id=user_id))
+    else:
+        return render_template("error.html", message="Following was not successful")
+
+
