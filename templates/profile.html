@@ -1,0 +1,26 @@
+<h1>{{profile[1]}}</h1>
+
+<h2>{{profile[1]}}'s posts:</h2>
+{% for post in posts %}
+<p></p>
+<a href="/viewpost/{{ post[0] }}">{{ post[1] }}</a>
+
+<p></p>
+
+{% endfor %}
+
+Followers: {{ followers_amount }}
+<p></p>
+The followers are: {{list_followers_names}}
+
+<p></p>
+
+{% if cannot_follow %}
+    You are viewing your own profile.
+{% elif follow %}
+    You follow user {{profile[1]}}
+{% else %}
+    <strong></strong><a href="/follow/{{ profile[0] }}">Follow {{profile[1]}}</a>
+
+
+{% endif %}
