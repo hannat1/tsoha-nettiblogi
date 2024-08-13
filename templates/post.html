@@ -9,3 +9,13 @@
 <strong>Posted at :</strong><a>{{post[5]}}</a>
 
 
+<p></p>
+
+{% if like %}
+    You like this post.
+{% else %}
+    <strong></strong><a href="/like/{{ post[0] }}">Like {{post[1]}}</a>
+<p></p>
+
+
+{% endif %}

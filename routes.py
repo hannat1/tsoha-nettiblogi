@@ -55,7 +55,25 @@ def register():
 @app.route("/viewpost/<int:post_id>")
 def view_post(post_id):
     list = posts.selectpost(post_id)
-    return render_template("/post.html", post=list)
+    current_user = users.user_id()
+    list_likers_names = posts.likers_names(post_id)
+    list_likers_ids = posts.likers_ids(post_id)
+    print(list_likers_ids)
+    like = False
+    for i in list_likers_ids:
+        if current_user == i[0]:
+            like = True
+    print(like)
+    return render_template("/post.html", post=list, like = like)
+
+@app.route("/like/<int:post_id>")
+def like(post_id):
+    post = post_id
+    if posts.like(post):
+        return redirect(url_for("view_post", post_id=post_id))
+    else:
+        return render_template("error.html", message="Like was not successful")
+
 
 @app.route("/viewprofile/<int:user_id>")
 def view_profile(user_id):
@@ -84,5 +102,4 @@ def follow(user_id):
         return redirect(url_for("view_profile", user_id=user_id))
     else:
         return render_template("error.html", message="Following was not successful")
-
 

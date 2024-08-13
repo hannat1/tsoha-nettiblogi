@@ -46,7 +46,6 @@ def followers_ids(user_id):
     result = db.session.execute(sql, {"user_id":user_id})
     return result.fetchall()
 
-
 def follow(user):
     #Follow a profile
     user_id = users.user_id()
@@ -56,3 +55,23 @@ def follow(user):
     db.session.execute(sql, {"user_id":user_id, "user":user})
     db.session.commit()
     return True
+
+def like(post):
+    #Like a post
+    user_id = users.user_id()
+    if user_id == 0:
+        return False
+    sql = text("INSERT INTO likes (post_id, user_id) VALUES (:post, :user)")
+    db.session.execute(sql, {"post":post, "user":user_id})
+    db.session.commit()
+    return True
+    
+def likers_names(post):
+    sql = text("SELECT U.username FROM users U, likes L WHERE L.user_id=U.id AND L.post_id=:post")
+    result = db.session.execute(sql, {"post":post})
+    return result.fetchall()
+
+def likers_ids(post):
+    sql = text("SELECT U.id FROM users U, likes L WHERE L.user_id=U.id AND L.post_id=:post")
+    result = db.session.execute(sql, {"post":post})
+    return result.fetchall()
