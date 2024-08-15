@@ -4,7 +4,7 @@ import users
 
 def get_list():
     #Feed view
-    sql = text("SELECT P.id, P.title, P.content, U.username, P.sent_at FROM posts P, users U WHERE P.user_id=U.id ORDER BY P.sent_at DESC")
+    sql = text("SELECT P.id, P.title, P.content, U.username, P.sent_at FROM posts P, users U WHERE P.user_id=U.id AND P.visible=TRUE ORDER BY P.sent_at DESC")
     result = db.session.execute(sql)
     return result.fetchall()
 
@@ -32,7 +32,7 @@ def viewprofile(user_id):
 
 def users_posts(user_id):
     #Select all posts of a user
-    sql = text("SELECT P.id, P.title, P.content, P.sent_at FROM posts P WHERE P.user_id=:user_id")
+    sql = text("SELECT P.id, P.title, P.content, P.sent_at FROM posts P WHERE P.user_id=:user_id AND P.visible=TRUE")
     result = db.session.execute(sql, {"user_id":user_id})
     return result.fetchall()
 
@@ -72,12 +72,12 @@ def like(post):
     return True
     
 def likers_names(post):
-    sql = text("SELECT U.username FROM users U, likes L WHERE L.user_id=U.id AND L.post_id=:post")
+    sql = text("SELECT U.username FROM users U, likes L WHERE L.user_id=U.id AND L.post_id=:post AND L.visible=TRUE")
     result = db.session.execute(sql, {"post":post})
     return result.fetchall()
 
 def likers_ids(post):
-    sql = text("SELECT U.id FROM users U, likes L WHERE L.user_id=U.id AND L.post_id=:post")
+    sql = text("SELECT U.id FROM users U, likes L WHERE L.user_id=U.id AND L.post_id=:post AND L.visible=TRUE")
     result = db.session.execute(sql, {"post":post})
     return result.fetchall()
 
@@ -93,6 +93,6 @@ def comment(comment, post_id):
 
 def comments(post_id):
     # Get comments of a post
-    sql = text("SELECT C.content, C.user_id, U.username, C.sent_at FROM comments C, posts P, users U WHERE C.post_id=P.id AND C.post_id=:post_id AND C.user_id=U.id ORDER BY C.sent_at DESC")
+    sql = text("SELECT C.content, C.user_id, U.username, C.sent_at FROM comments C, posts P, users U WHERE C.post_id=P.id AND C.post_id=:post_id AND C.user_id=U.id AND C.visible=TRUE ORDER BY C.sent_at DESC")
     result = db.session.execute(sql, {"post_id":post_id})
     return result.fetchall()
