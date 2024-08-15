@@ -105,6 +105,16 @@ def follow(user_id):
     else:
         return render_template("error.html", message="Following was not successful")
 
+@app.route("/unfollow/<int:user_id>")
+def unfollow(user_id):
+    user = user_id
+    if posts.unfollow(user):
+        return redirect(url_for("view_profile", user_id=user_id))
+    else:
+        return render_template("error.html", message="Following was not successful")
+
+
+
 @app.route("/comment/<int:post_id>", methods=["POST"])
 def comment(post_id):
     comment = request.form["comment"]
@@ -112,3 +122,4 @@ def comment(post_id):
         return redirect(url_for("view_post", post_id=post_id))
     else:
         return render_template("error.html", message="Comment was not successful")
+

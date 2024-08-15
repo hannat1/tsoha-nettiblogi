@@ -37,7 +37,7 @@ def users_posts(user_id):
     return result.fetchall()
 
 def followers(user_id):
-    sql = text("SELECT U.username, U.id FROM users U, followings F WHERE F.follower_id=U.id AND F.followed_id=:user_id")
+    sql = text("SELECT U.username, U.id FROM users U, followings F WHERE F.follower_id=U.id AND F.followed_id=:user_id AND F.visible=TRUE")
     result = db.session.execute(sql, {"user_id":user_id})
     return result.fetchall()
 
@@ -50,6 +50,16 @@ def follow(user):
     db.session.execute(sql, {"user_id":user_id, "user":user})
     db.session.commit()
     return True
+
+def unfollow(user):
+    #Unfollow a profile
+    follower_id = users.user_id()
+    followed_id = user
+    sql = text("UPDATE followings SET visible=FALSE WHERE follower_id=:follower_id AND followed_id=:followed_id")
+    db.session.execute(sql, {"follower_id":follower_id, "followed_id":followed_id})
+    db.session.commit()
+    return True
+
 
 def like(post):
     #Like a post

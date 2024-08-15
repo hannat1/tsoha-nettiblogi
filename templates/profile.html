@@ -27,7 +27,7 @@ The followers are:
 {% if cannot_follow %}
     You are viewing your own profile.
 {% elif follow %}
-    You follow user {{profile[1]}}
+    You follow user {{profile[1]}}. <a href="/unfollow/{{ profile[0] }}"> Unfollow </a>
 {% else %}
     <strong></strong><a href="/follow/{{ profile[0] }}">Follow {{profile[1]}}</a>
 
