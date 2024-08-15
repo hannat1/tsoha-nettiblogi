@@ -35,7 +35,7 @@ def login():
 @app.route("/logout")
 def logout():
     users.logout()
-    return redirect("/")
+    return redirect("/login")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -55,6 +55,8 @@ def register():
 @app.route("/viewpost/<int:post_id>")
 def view_post(post_id):
     list = posts.selectpost(post_id)
+    list_comments = posts.comments(post_id)
+    print(list_comments)
     current_user = users.user_id()
     list_likers_names = posts.likers_names(post_id)
     list_likers_ids = posts.likers_ids(post_id)
@@ -64,7 +66,8 @@ def view_post(post_id):
         if current_user == i[0]:
             like = True
     print(like)
-    return render_template("/post.html", post=list, like = like)
+
+    return render_template("/post.html", post=list, like = like, comments=list_comments, likes_names = list_likers_names, likes_amount= len(list_likers_names))
 
 @app.route("/like/<int:post_id>")
 def like(post_id):
@@ -79,21 +82,20 @@ def like(post_id):
 def view_profile(user_id):
     list = posts.viewprofile(user_id)
     list_posts = posts.users_posts(user_id)
-    list_followers_ids = posts.followers_ids(user_id)
-    list_followers_names = posts.followers_names(user_id)
+    list_followers = posts.followers(user_id)
     current_user = users.user_id()
     cannot_follow =False
     if current_user == user_id:
         cannot_follow = True
 
     print(current_user, "current user")
-    print(list_followers_ids, "ids")
     follow = False
-    for i in list_followers_ids:
-        if current_user == i[0]:
+    for i in list_followers:
+        print(i[1])
+        if current_user == i[1]:
             follow = True
             
-    return render_template("/profile.html", profile=list, posts=list_posts, followers_amount=len(list_followers_ids), list_followers_names = list_followers_names, list_followers_ids= list_followers_ids, follow = follow, cannot_follow=cannot_follow)
+    return render_template("/profile.html", profile=list, posts=list_posts, followers_amount=len(list_followers), list_followers= list_followers, follow = follow, cannot_follow=cannot_follow)
 
 @app.route("/follow/<int:user_id>")
 def follow(user_id):
@@ -103,3 +105,10 @@ def follow(user_id):
     else:
         return render_template("error.html", message="Following was not successful")
 
+@app.route("/comment/<int:post_id>", methods=["POST"])
+def comment(post_id):
+    comment = request.form["comment"]
+    if posts.comment(comment, post_id):
+        return redirect(url_for("view_post", post_id=post_id))
+    else:
+        return render_template("error.html", message="Comment was not successful")

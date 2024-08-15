@@ -23,6 +23,7 @@ CREATE TABLE comments (
     post_id INTEGER REFERENCES posts,
     user_id INTEGER REFERENCES users,
     content TEXT,
+    sent_at TIMESTAMP, 
     visible BOOLEAN DEFAULT TRUE
 );
 CREATE TABLE likes (

@@ -6,9 +6,11 @@
 
 <strong>User: </strong><a href="/viewprofile/{{ post[4] }}">{{ post[3] }}</a>
 <p></p>
-<strong>Posted at :</strong><a>{{post[5]}}</a>
+<strong>Posted at: </strong><a>{{post[5].strftime("%Y-%m-%d %H:%M:%S")}}</a>
 
 
+<p></p>
+Likes: {{likes_amount}}
 <p></p>
 
 {% if like %}
@@ -19,3 +21,23 @@
 
 
 {% endif %}
+
+<form action="/comment/{{post [0]}}" method="post">
+    Comment: <br>
+    <textarea name="comment" rows="3" cols="30"></textarea>
+    <br>
+    <input type="submit" value="Send">
+    </form>
+
+
+{% for comment in comments %}
+<i>Comment:<a>{{ comment[0] }}</a>
+<p>
+<i>User:</i> {{ comment[2] }}
+<p>
+<i>Sent at:</i> {{ comment[3].strftime("%Y-%m-%d %H:%M:%S") }}
+
+<hr>
+{% endfor %}
+
+<strong></strong><a href="/">Go back to newsfeed</a>

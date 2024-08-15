@@ -11,7 +11,16 @@
 
 Followers: {{ followers_amount }}
 <p></p>
-The followers are: {{list_followers_names}}
+The followers are: 
+<p>
+{% for follower in list_followers %}
+<p>
+<strong> {{follower[0]}} </strong><a href="/viewprofile/{{ follower[1] }}">View</a>
+
+<p>
+<hr>
+{% endfor %}
+
 
 <p></p>
 

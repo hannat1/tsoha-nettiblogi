@@ -36,13 +36,8 @@ def users_posts(user_id):
     result = db.session.execute(sql, {"user_id":user_id})
     return result.fetchall()
 
-def followers_names(user_id):
-    sql = text("SELECT U.username FROM users U, followings F WHERE F.follower_id=U.id AND F.followed_id=:user_id")
-    result = db.session.execute(sql, {"user_id":user_id})
-    return result.fetchall()
-
-def followers_ids(user_id):
-    sql = text("SELECT F.follower_id FROM followings F WHERE F.followed_id=:user_id")
+def followers(user_id):
+    sql = text("SELECT U.username, U.id FROM users U, followings F WHERE F.follower_id=U.id AND F.followed_id=:user_id")
     result = db.session.execute(sql, {"user_id":user_id})
     return result.fetchall()
 
@@ -74,4 +69,20 @@ def likers_names(post):
 def likers_ids(post):
     sql = text("SELECT U.id FROM users U, likes L WHERE L.user_id=U.id AND L.post_id=:post")
     result = db.session.execute(sql, {"post":post})
+    return result.fetchall()
+
+def comment(comment, post_id):
+    #Make comment on a post
+    user_id = users.user_id()
+    if user_id == 0:
+        return False
+    sql = text("INSERT INTO comments (post_id, user_id, content, sent_at) VALUES (:post_id, :user_id, :content, NOW())")
+    db.session.execute(sql, {"post_id":post_id, "user_id":user_id, "content":comment})
+    db.session.commit()
+    return True
+
+def comments(post_id):
+    # Get comments of a post
+    sql = text("SELECT C.content, C.user_id, U.username, C.sent_at FROM comments C, posts P, users U WHERE C.post_id=P.id AND C.post_id=:post_id AND C.user_id=U.id ORDER BY C.sent_at DESC")
+    result = db.session.execute(sql, {"post_id":post_id})
     return result.fetchall()
