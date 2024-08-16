@@ -1,0 +1,12 @@
+<h2>Posts of users you follow:</h2>
+
+
+{% for post in posts %}
+<i>Title:<a href="/viewpost/{{ post[0] }}">{{ post[1] }}</a>
+<p>
+<i>User:</i> {{ post[3] }}
+<p>
+<i>Posted:</i> {{ post[4].strftime("%Y-%m-%d") }}
+<p>
+<hr>
+{% endfor %}
