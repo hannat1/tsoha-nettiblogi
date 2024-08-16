@@ -14,7 +14,7 @@ Likes: {{likes_amount}}
 <p></p>
 
 {% if like %}
-    You like this post.
+    You like this post. <a href="/unlike/{{ post[0] }}"> Unlike </a>
 {% else %}
     <strong></strong><a href="/like/{{ post[0] }}">Like {{post[1]}}</a>
 <p></p>
@@ -37,6 +37,16 @@ Likes: {{likes_amount}}
 <p>
 <i>Sent at:</i> {{ comment[3].strftime("%Y-%m-%d %H:%M:%S") }}
 
+    {% if comment[1] == user %}
+    <a href="/del_comment/{{ post[0] }}/{{ comment[4] }}"> Delete comment </a>
+    {% endif %}
 <hr>
 {% endfor %}
-<strong></strong><a href="/">Go back to newsfeed</a>
+<p></p>
+{% if post[4] == user %}
+<a href="/del_post/{{ post[0] }}"> Delete post </a>
+{% endif %}
+<p></p>
+<strong></strong><a href="/">Go to blog feed</a>
+<p></p>
+<strong></strong><a href="/following">Go to filtered feed</a>
