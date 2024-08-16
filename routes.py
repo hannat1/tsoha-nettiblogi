@@ -5,7 +5,9 @@ import posts, users
 @app.route("/")
 def index():
     list = posts.get_list()
-    return render_template("index.html", posts=list)
+    user = users.user_id()
+    username = posts.username(user)
+    return render_template("index.html", posts=list, user=username)
 
 @app.route("/new")
 def new():
@@ -67,7 +69,7 @@ def view_post(post_id):
             like = True
     print(like)
 
-    return render_template("/post.html", post=list, like = like, comments=list_comments, likes_names = list_likers_names, likes_amount= len(list_likers_names))
+    return render_template("/post.html", user=current_user, post=list, like = like, comments=list_comments, likes_ids = list_likers_ids, likes_amount= len(list_likers_names))
 
 @app.route("/like/<int:post_id>")
 def like(post_id):
@@ -76,6 +78,14 @@ def like(post_id):
         return redirect(url_for("view_post", post_id=post_id))
     else:
         return render_template("error.html", message="Like was not successful")
+
+@app.route("/unlike/<int:post_id>")
+def unlike(post_id):
+    post_id = post_id
+    if posts.unlike(post_id):
+        return redirect(url_for("view_post", post_id=post_id))
+    else:
+        return render_template("error.html", message="Unlike was not successful")
 
 
 @app.route("/viewprofile/<int:user_id>")
@@ -113,8 +123,6 @@ def unfollow(user_id):
     else:
         return render_template("error.html", message="Following was not successful")
 
-
-
 @app.route("/comment/<int:post_id>", methods=["POST"])
 def comment(post_id):
     comment = request.form["comment"]
@@ -122,4 +130,28 @@ def comment(post_id):
         return redirect(url_for("view_post", post_id=post_id))
     else:
         return render_template("error.html", message="Comment was not successful")
+
+@app.route("/del_comment/<int:post_id>/<int:comment_id>")
+def delete_comment(post_id, comment_id):
+    if posts.delete_comment(comment_id):
+        return redirect(url_for("view_post", post_id=post_id))
+    else:
+        return render_template("error.html", message="Deleting comment was not successful")
+
+@app.route("/del_post/<int:post_id>")
+def delete_post(post_id):
+    if posts.delete_post(post_id):
+        return redirect("/")
+    else:
+        return render_template("error.html", message="Deleting post was not successful")
+
+@app.route("/following")
+def filter_following():
+    followed_posts = posts.filter_f()
+    return render_template("filtered.html", posts = followed_posts)
+
+@app.route("/liked")
+def filter_liked():
+    liked_posts = posts.filter_l()
+    return render_template("liked.html", liked_posts = liked_posts)
 
