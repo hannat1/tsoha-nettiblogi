@@ -31,3 +31,14 @@ def register(username, password):
 
 def user_id():
     return session.get("user_id",0)
+
+def username(user_id):
+    sql = text("SELECT U.username FROM users U WHERE U.id=:user_id")
+    result = db.session.execute(sql, {"user_id":user_id})
+    return result.fetchone()
+
+def viewprofile(user_id):
+    #Select profile for viewing
+    sql = text("SELECT U.id, U.username FROM users U WHERE U.id=:id")
+    result = db.session.execute(sql, {"id":user_id})
+    return result.fetchone()
