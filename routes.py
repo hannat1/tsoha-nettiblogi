@@ -184,7 +184,7 @@ def filter_liked():
     return render_template("liked.html", liked_posts=liked_posts, user=user_id)
 
 @app.route("/search")
-def haku():
+def search():
     return render_template("search.html")
 
 
