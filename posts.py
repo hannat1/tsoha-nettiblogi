@@ -2,7 +2,7 @@ from db import db
 from sqlalchemy.sql import text
 import users
 
-def get_list():
+def feed():
     #Feed view
     sql = text("SELECT P.id, P.title, P.content, U.username, P.sent_at FROM posts P, users U WHERE P.user_id=U.id AND P.visible=TRUE ORDER BY P.sent_at DESC")
     result = db.session.execute(sql)
@@ -36,3 +36,7 @@ def delete_post(post_id):
     db.session.commit()
     return True
 
+def search(search):
+    sql = text("SELECT P.id, P.title, P.user_id FROM posts P WHERE P.title LIKE (:search) AND P.visible=TRUE")
+    result = db.session.execute(sql, {"search": "%"+search+"%"})
+    return result.fetchall()
