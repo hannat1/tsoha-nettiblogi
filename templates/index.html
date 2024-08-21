@@ -8,7 +8,11 @@ View your own profile <a href="/viewprofile/{{ user[1] }}">here</a>.
 <a href="/login">Log in</a>
 {% endif %}
 <p></p>
-To filter feed by following click <a href="/following">here</a>
+{% if not filter %}
+To filter feed by following click <a href="/filter">here</a>
+{% else %}
+To view all posts click <a href="/unfilter">here</a>
+{% endif %}
 <p></p>
 <hr>
 {% for post in posts %}
@@ -20,3 +24,6 @@ To filter feed by following click <a href="/following">here</a>
 <p>
 <hr>
 {% endfor %}
+
+<i>Search:<a href="/search">search</a>
+
