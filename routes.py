@@ -1,13 +1,15 @@
 from app import app
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, session, abort
 import posts, users, follows, likes, comments
 
 @app.route("/")
 def index():
-    list = posts.get_list()
+    filter = False
+    list = posts.feed()
     user_id = users.user_id()
     username = users.username(user_id)
-    return render_template("index.html", posts=list, user=(username, user_id))
+    print(filter, "index")
+    return render_template("index.html", posts=list, user=(username, user_id), filter=filter)
 
 @app.route("/new")
 def new():
@@ -15,6 +17,8 @@ def new():
 
 @app.route("/send", methods=["POST"])
 def send():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
     title = request.form["title"]
     content = request.form["content"]
     if len(title) > 50:
@@ -130,6 +134,8 @@ def unfollow(user_id):
 
 @app.route("/comment/<int:post_id>", methods=["POST"])
 def comment(post_id):
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
     comment = request.form["comment"]
     if len(comment) == 0:
         return render_template("error.html", message="Comment is missing")
@@ -152,13 +158,38 @@ def delete_post(post_id):
     else:
         return render_template("error.html", message="Deleting post was not successful")
 
-@app.route("/following")
+@app.route("/filter")
 def filter_following():
+    filter = True
+    user_id = users.user_id()
+    username = users.username(user_id)
     followed_posts = follows.filter_f()
-    return render_template("filtered.html", posts = followed_posts)
+    print(filter, "filter")
+    return render_template("index.html", posts = followed_posts, user=(username, user_id), filter = filter)
+
+@app.route("/unfilter")
+def unfilter():
+    filter = False
+    user_id = users.user_id()
+    username = users.username(user_id)
+    all_posts = posts.feed()
+    print(filter, "unfilter")
+    return render_template("index.html", posts = all_posts, user=(username, user_id), filter = filter)
+
 
 @app.route("/liked")
 def filter_liked():
+    user_id = users.user_id()
     liked_posts = likes.filter_l()
-    return render_template("liked.html", liked_posts = liked_posts)
+    return render_template("liked.html", liked_posts=liked_posts, user=user_id)
 
+@app.route("/search")
+def haku():
+    return render_template("search.html")
+
+
+@app.route("/result", methods=["GET"])
+def search_result():
+    search = request.args["search"]
+    result_posts = posts.search(search)
+    return render_template("result.html", search=search, posts=result_posts)
