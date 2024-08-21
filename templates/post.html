@@ -27,6 +27,7 @@ Likes: {{likes_amount}}
     <textarea name="comment" rows="3" cols="30"></textarea>
     <br>
     <input type="submit" value="Send">
+    <input type="hidden" name="csrf_token" value="{{ session[ 'csrf_token' ] }}">
     </form>
 
 
