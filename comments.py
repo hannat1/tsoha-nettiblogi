@@ -21,6 +21,10 @@ def delete_comment(comment_id):
 
 def comments(post_id):
     # Get comments of a post
-    sql = text("SELECT C.content, C.user_id, U.username, C.sent_at, C.id, P.id FROM comments C, posts P, users U WHERE C.post_id=P.id AND C.post_id=:post_id AND C.user_id=U.id AND C.visible=TRUE ORDER BY C.sent_at DESC")
+    sql = text("""SELECT C.content, C.user_id, U.username, C.sent_at, C.id, P.id 
+               FROM comments C, posts P, users U 
+               WHERE C.post_id=P.id AND C.post_id=:post_id 
+               AND C.user_id=U.id AND C.visible=TRUE 
+               ORDER BY C.sent_at DESC""")
     result = db.session.execute(sql, {"post_id":post_id})
     return result.fetchall()

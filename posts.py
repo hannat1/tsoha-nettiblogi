@@ -4,7 +4,10 @@ import users
 
 def feed():
     #Feed view
-    sql = text("SELECT P.id, P.title, P.content, U.username, P.sent_at FROM posts P, users U WHERE P.user_id=U.id AND P.visible=TRUE ORDER BY P.sent_at DESC")
+    sql = text("""SELECT P.id, P.title, P.content, U.username, P.sent_at 
+               FROM posts P, users U 
+               WHERE P.user_id=U.id AND P.visible=TRUE 
+               ORDER BY P.sent_at DESC""")
     result = db.session.execute(sql)
     return result.fetchall()
 
@@ -20,13 +23,15 @@ def send(title, content):
 
 def selectpost(post_id):
     #Select post for viewing
-    sql = text("SELECT P.id, P.title, P.content, U.username, U.id, P.sent_at FROM posts P, users U WHERE P.id =:post_id AND P.user_id=U.id")
+    sql = text("""SELECT P.id, P.title, P.content, U.username, U.id, P.sent_at 
+               FROM posts P, users U WHERE P.id =:post_id AND P.user_id=U.id""")
     result = db.session.execute(sql, {"post_id":post_id})
     return result.fetchone()
 
 def users_posts(user_id):
     #Select all posts of a user
-    sql = text("SELECT P.id, P.title, P.content, P.sent_at FROM posts P WHERE P.user_id=:user_id AND P.visible=TRUE")
+    sql = text("""SELECT P.id, P.title, P.content, P.sent_at 
+               FROM posts P WHERE P.user_id=:user_id AND P.visible=TRUE""")
     result = db.session.execute(sql, {"user_id":user_id})
     return result.fetchall()
 
@@ -39,22 +44,15 @@ def delete_post(post_id):
 
 def search_post(search):
     #Search
-    sql = text("""
-	SELECT
-		P.id, P.title, P.content, P.user_id, U.username
- 	FROM
-		posts P, users U
-	WHERE
-		P.visible = TRUE 
-    AND 
-        U.id=P.user_id
-	AND
-		(
-		lower(title) LIKE lower(:search)
-	OR
-		lower(content) LIKE lower(:search)
-		)
-	""")
+    sql = text("""SELECT P.id, P.title, P.content, P.user_id, U.username
+                FROM posts P, users U
+                WHERE P.visible = TRUE 
+                AND U.id=P.user_id
+                AND
+                (lower(title) LIKE lower(:search)
+                OR
+                lower(content) LIKE lower(:search))
+                """)
     result = db.session.execute(sql, {"search": "%"+search+"%"})
     return result.fetchall()
 

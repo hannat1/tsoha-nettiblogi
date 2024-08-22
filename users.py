@@ -47,22 +47,13 @@ def viewprofile(user_id):
 
 def search_user(search):
     #Search
-    sql = text("""
-	SELECT
-		U.id, U.username, COUNT(P.id)
- 	FROM
-		posts P, users U
-	WHERE
-		U.visible = TRUE 
-    AND 	
-        P.visible = TRUE 
-    AND 
-        U.id=P.user_id
-	AND
-		(
-		lower(username) LIKE lower(:search)
-		)
-    GROUP BY U.id
-	""")
+    sql = text("""SELECT U.id, U.username, COUNT(P.id)
+                FROM posts P, users U
+                WHERE U.visible = TRUE 
+                AND P.visible = TRUE 
+                AND U.id=P.user_id
+                AND (lower(username) LIKE lower(:search))
+                GROUP BY U.id
+                """)
     result = db.session.execute(sql, {"search": "%"+search+"%"})
     return result.fetchall()
