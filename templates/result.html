@@ -1,0 +1,38 @@
+<h2>Results for search {{ search }} :</h2>
+
+<h3>Posts that match the search:</h3>
+<p></p>
+
+{% if posts|length == 0 %}
+    <p>No posts match search.</p>
+{% else %}
+    {% for post in posts %}
+
+    <i>Title:<a href="/viewpost/{{ post[0] }}">{{ post[1] }}</a>
+    <p>
+    <i>User:</i> {{ post[4] }}
+    <p>
+    <p>
+    <hr>
+    {% endfor %}
+{% endif %}
+<p></p>
+<h3>Users that match the search:</h3>
+<p></p>
+{% if users|length == 0 %}
+    <p>No users match search.</p>
+{% else %}
+    {% for user in users %}
+
+    <i>User:<a href="/viewprofile/{{ user[0] }}">{{ user[1] }}</a>
+    <p>
+    <i>Number of posts:</i> {{ user[2] }}
+    <p>
+    <p>
+    <hr>
+    {% endfor %}
+{% endif %}
+
+<p></p>
+<strong></strong><a href="/">Go to back to blog feed</a>
+<p></p>

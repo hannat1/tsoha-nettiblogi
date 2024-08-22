@@ -1,0 +1,39 @@
+<h1>{{profile[1]}}</h1>
+
+<h2>{{profile[1]}}'s posts:</h2>
+{% for post in posts %}
+<p></p>
+<a href="/viewpost/{{ post[0] }}">{{ post[1] }}</a>
+
+<p></p>
+
+{% endfor %}
+
+Followers: {{ followers_amount }}
+<p></p>
+The followers are: 
+<p>
+{% for follower in list_followers %}
+<p>
+<strong> {{follower[0]}} </strong><a href="/viewprofile/{{ follower[1] }}">View</a>
+
+<p>
+<hr>
+{% endfor %}
+
+
+<p></p>
+
+{% if cannot_follow %}
+    You are viewing your own profile.
+    <p></p>
+    To view your liked posts click <a href="/liked">here</a>
+{% elif follow %}
+    You follow user {{profile[1]}}. <a href="/unfollow/{{ profile[0] }}"> Unfollow </a>
+{% else %}
+    <strong></strong><a href="/follow/{{ profile[0] }}">Follow {{profile[1]}}</a>
+
+{% endif %}
+<p></p>
+<hr>
+<strong></strong><a href="/">Go to blog feed</a>

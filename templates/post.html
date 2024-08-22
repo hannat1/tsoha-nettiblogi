@@ -1,0 +1,52 @@
+<h1>{{post[1]}}</h1>
+
+<a>{{ post[2] }}</a>
+<p>
+
+
+<strong>User: </strong><a href="/viewprofile/{{ post[4] }}">{{ post[3] }}</a>
+<p></p>
+<strong>Posted at: </strong><a>{{post[5].strftime("%Y-%m-%d %H:%M:%S")}}</a>
+
+
+<p></p>
+Likes: {{likes_amount}}
+<p></p>
+
+{% if like %}
+    You like this post. <a href="/unlike/{{ post[0] }}"> Unlike </a>
+{% else %}
+    <strong></strong><a href="/like/{{ post[0] }}">Like {{post[1]}}</a>
+<p></p>
+
+
+{% endif %}
+
+<form action="/comment/{{post [0]}}" method="post">
+    Comment: <br>
+    <textarea name="comment" rows="3" cols="30"></textarea>
+    <br>
+    <input type="submit" value="Send">
+    <input type="hidden" name="csrf_token" value="{{ session[ 'csrf_token' ] }}">
+    </form>
+
+
+{% for comment in comments %}
+<i>Comment:<a>{{ comment[0] }}</a>
+<p>
+<i>User:</i> {{ comment[2] }}
+<p>
+<i>Sent at:</i> {{ comment[3].strftime("%Y-%m-%d %H:%M:%S") }}
+
+    {% if comment[1] == user %}
+    <a href="/del_comment/{{ post[0] }}/{{ comment[4] }}"> Delete comment </a>
+    {% endif %}
+<hr>
+{% endfor %}
+<p></p>
+{% if post[4] == user %}
+<a href="/del_post/{{ post[0] }}"> Delete post </a>
+{% endif %}
+<p></p>
+<strong></strong><a href="/">Go to blog feed</a>
+<p></p>
