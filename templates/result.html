@@ -1,38 +1,38 @@
-<h2>Results for search {{ search }} :</h2>
+{% extends "layout.html" %}
+{% block title %}Blog feed{% endblock %}
+{% block header %} Results for search {{ search }} : {% endblock %}
+{% block content %}
 
-<h3>Posts that match the search:</h3>
-<p></p>
-
-{% if posts|length == 0 %}
-    <p>No posts match search.</p>
-{% else %}
-    {% for post in posts %}
-
-    <i>Title:<a href="/viewpost/{{ post[0] }}">{{ post[1] }}</a>
-    <p>
-    <i>User:</i> {{ post[4] }}
-    <p>
-    <p>
-    <hr>
-    {% endfor %}
-{% endif %}
-<p></p>
-<h3>Users that match the search:</h3>
-<p></p>
-{% if users|length == 0 %}
-    <p>No users match search.</p>
-{% else %}
-    {% for user in users %}
-
-    <i>User:<a href="/viewprofile/{{ user[0] }}">{{ user[1] }}</a>
-    <p>
-    <i>Number of posts:</i> {{ user[2] }}
-    <p>
-    <p>
-    <hr>
-    {% endfor %}
-{% endif %}
+<div class="row g-3 align-items-stretch">
+    <div class="col-6 d-flex flex-column">
+        <h2>Posts that match the search:</h2>
+        {% if posts|length == 0 %}
+            <p>No posts match search.</p>
+        {% else %}
+            {% for post in posts %}
+                <p><i>Title:</i> <a href="/viewpost/{{ post[0] }}">{{ post[1] }}</a></p>
+                <p><i>User:</i> {{ post[4] }}</p>
+                <hr>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="col-6 d-flex flex-column">
+        <h2>Users that match the search:</h2>
+        {% if users|length == 0 %}
+            <p>No users match search.</p>
+        {% else %}
+            {% for user in users %}
+                <p><i>User:</i> <a href="/viewprofile/{{ user[0] }}">{{ user[1] }}</a></p>
+                <p><i>Number of posts:</i> {{ user[2] }}</p>
+                <hr>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
 
 <p></p>
-<strong></strong><a href="/">Go to back to blog feed</a>
+<a href="/">Go to back to blog feed</a>
 <p></p>
+<a href="/search">Go to back to search</a>
+<p></p>
+{% endblock %}

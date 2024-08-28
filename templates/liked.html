@@ -1,4 +1,8 @@
-<h2>Posts you have liked:</h2>
+{% extends "layout.html" %}
+{% block title %}Blog feed{% endblock %}
+{% block header %}
+Posts you have liked: {% endblock %}
+{% block content %}
 
 
 {% for post in liked_posts %}
@@ -14,3 +18,4 @@
 <p></p>
 <strong></strong><a href="/viewprofile/{{ user }}">Go back to your profile</a>
 <p></p>
+{% endblock %}

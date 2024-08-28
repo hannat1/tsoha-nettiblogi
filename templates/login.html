@@ -1,8 +1,23 @@
+{% extends "layout.html" %}
+{% block title %}Login{% endblock %}
+
+{% block header %} Log in {% endblock %}
+
+{% block content %}
 <form action="/login" method="post">
-    Username: <input type="text" name="username">
-    <p>
-    Password: <input type="password" name="password">
-    <p>
-    <input type="submit" value="Log in">
-    </form>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="floatingUsername" name="username" placeholder="Username" required>
+        <label for="floatingUsername">Username</label>
+      </div>
+    <div class="form-floating mb-3">
+        <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password" required>
+        <label for="floatingPassword">Password</label>
+      </div>
+    <button type="submit" class="btn btn-primary">Log in</button>
+    <br>
+    <p></p>
     If you don't have an account you can make one <a href="/register">here</a>
+</form>
+
+{% endblock %}
+

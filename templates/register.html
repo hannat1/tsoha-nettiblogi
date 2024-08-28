@@ -1,9 +1,31 @@
+{% extends "layout.html" %}
+{% block title %}Blog feed{% endblock %}
+{% block content %}
+
+{% block header %} Register {% endblock %}
+
 <form action="/register" method="post">
-    Username: <input type="text" name="username">
-    <p>
-    Password: <input type="password" name="password1">
-    <p>
-    Password again: <input type="password" name="password2">
-    <p>
-    <input type="submit" value="Create account">
-    </form>
+  <div class="form-floating mb-3">
+    <input type="text" class="form-control" id="floatingUsername" name="username" placeholder="Username" aria-describedby="usernameHelp" required>
+    <label for="floatingUsername">Username</label>
+    <div id="usernameHelp" class="form-text">
+      Your username must be 3-15 characters long.
+    </div>
+  </div>
+
+  <div class="form-floating mb-3">
+    <input type="password" class="form-control" id="floatingPassword1" name="password1" placeholder="Password" aria-describedby="passwordHelp" required>
+    <label for="floatingPassword1">Password</label>
+    <div id="passwordHelp" class="form-text">
+        Your password must be 4-20 characters long.
+      </div>
+  </div>
+  
+  <div class="form-floating mb-3">
+    <input type="password" class="form-control" id="floatingPassword2" name="password2" placeholder="Password again" required>
+    <label for="floatingPassword2">Password again</label>
+  </div>
+  
+  <button type="submit" class="btn btn-primary">Create account</button>
+</form>
+{% endblock %}

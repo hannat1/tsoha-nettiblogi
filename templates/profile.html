@@ -1,4 +1,10 @@
-<h1>{{profile[1]}}</h1>
+{% extends "layout.html" %}
+{% block title %}Blog feed{% endblock %}
+
+{% block header %} {{profile[1]}} {% endblock %}
+
+
+{% block content %}
 
 <h2>{{profile[1]}}'s posts:</h2>
 {% for post in posts %}
@@ -37,3 +43,4 @@ The followers are:
 <p></p>
 <hr>
 <strong></strong><a href="/">Go to blog feed</a>
+{% endblock %}

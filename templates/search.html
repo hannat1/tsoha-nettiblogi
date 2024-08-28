@@ -1,16 +1,19 @@
-<h2>Search</h2>
-
-<hr>
+{% extends "layout.html" %}
+{% block title %}Search{% endblock %}
+{% block header %} Search {% endblock %}
+{% block content %}
 
 <form action="/result" method="GET">
-Search: <input type"text" name="search" minlength="1" required>
-<br>
-<p></p>
-<input type="submit" value="Search">
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="floatingSearch" name="search" placeholder="Search" required>
+        <label for="floatingSearch">Search</label>
+      </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+    <br>
+    <p></p>
 </form>
 
-<hr>
-
 <p></p>
-<strong></strong><a href="/">Go back to blog feed</a>
+<a href="/">Go back to blog feed</a>
 <p></p>
+{% endblock %}

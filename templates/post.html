@@ -1,4 +1,7 @@
-<h1>{{post[1]}}</h1>
+{% extends "layout.html" %}
+{% block title %}Post{% endblock %}
+{% block header %}{{post[1]}} {% endblock %}
+{% block content %}
 
 <a>{{ post[2] }}</a>
 <p>
@@ -50,3 +53,6 @@ Likes: {{likes_amount}}
 <p></p>
 <strong></strong><a href="/">Go to blog feed</a>
 <p></p>
+
+
+{% endblock %}

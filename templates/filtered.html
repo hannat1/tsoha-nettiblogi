@@ -1,5 +1,7 @@
+{% extends "layout.html" %}
+{% block title %}Blog feed{% endblock %}
+{% block content %}
 <h2>Posts of users you follow:</h2>
-
 
 {% for post in posts %}
 <i>Title:<a href="/viewpost/{{ post[0] }}">{{ post[1] }}</a>
@@ -14,3 +16,4 @@
 <p></p>
 <strong></strong><a href="/">Go to blog feed</a>
 <p></p>
+{% endblock %}

@@ -1,10 +1,23 @@
+{% extends "layout.html" %}
+{% block title %}New post{% endblock %}
+
+{% block header%} New post {% endblock %}
+
+{% block content %}
 <form action="/send" method="post">
-    Title: <br>
-    <textarea name="title" rows="2" cols="20"></textarea>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="floatingTitle" name="title" placeholder="Title" required>
+        <label for="floatingTitle">Title</label>
+      </div>
+    
     <br>
-    Content: <br>
-    <textarea name="content" rows="3" cols="40"></textarea>
-    <br>
-    <input type="submit" value="Post">
+    <div class="form-floating mb-3">
+        <textarea class="form-control" id="floatingContent" name="content" placeholder="Content" style="height: 150px;" required></textarea>
+        <label for="floatingContent">Write your post here</label>
+    </div>
+    <button type="submit" value="Post" class="btn btn-primary">Post</button>
     <input type="hidden" name="csrf_token" value="{{ session[ 'csrf_token' ] }}">
     </form>
+
+
+{% endblock %}
