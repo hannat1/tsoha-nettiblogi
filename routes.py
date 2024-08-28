@@ -61,7 +61,7 @@ def register():
         password2 = request.form["password2"]
         if 3>len(username):
             return render_template("error.html", message="Username is too short")
-        if len(username)>13:
+        if len(username)>16:
             return render_template("error.html", message="Username is too long")
         if 4>len(password1):
             return render_template("error.html", message="Password is too short")
