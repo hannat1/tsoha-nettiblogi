@@ -106,6 +106,7 @@ def view_profile(user_id):
     list = users.viewprofile(user_id)
     list_posts = posts.users_posts(user_id)
     list_followers = follows.followers(user_id)
+    total_likes = likes.total_likes(user_id)
     current_user = users.user_id()
     cannot_follow =False
     if current_user == user_id:
@@ -114,7 +115,7 @@ def view_profile(user_id):
     for i in list_followers:
         if current_user == i[1]:
             follow = True
-    return render_template("/profile.html", profile=list, posts=list_posts, followers_amount=len(list_followers), list_followers= list_followers, follow = follow, cannot_follow=cannot_follow)
+    return render_template("/profile.html", profile=list, posts=list_posts, followers_amount=len(list_followers), list_followers= list_followers, follow = follow, cannot_follow=cannot_follow, total_likes=total_likes)
 
 @app.route("/follow/<int:user_id>")
 def follow(user_id):
