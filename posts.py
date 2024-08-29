@@ -31,7 +31,8 @@ def selectpost(post_id):
 def users_posts(user_id):
     #Select all posts of a user
     sql = text("""SELECT P.id, P.title, P.content, P.sent_at 
-               FROM posts P WHERE P.user_id=:user_id AND P.visible=TRUE""")
+               FROM posts P WHERE P.user_id=:user_id AND P.visible=TRUE
+               ORDER BY P.sent_at DESC""")
     result = db.session.execute(sql, {"user_id":user_id})
     return result.fetchall()
 
