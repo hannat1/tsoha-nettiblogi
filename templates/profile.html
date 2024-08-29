@@ -1,46 +1,74 @@
 {% extends "layout.html" %}
 {% block title %}Blog feed{% endblock %}
-
-{% block header %} {{profile[1]}} {% endblock %}
-
-
+{% block header %} <p class="text-uppercase">{{profile[1]}}</p>{% endblock %}
 {% block content %}
 
-<h2>{{profile[1]}}'s posts:</h2>
-{% for post in posts %}
-<p></p>
-<a href="/viewpost/{{ post[0] }}">{{ post[1] }}</a>
+<div class="row g-3 align-items-stretch">
+    <div class="col-3 d-flex flex-column">
+        <p class="fs-2">{{profile[1]}}'s posts:</p>
+        {% for post in posts %}
+        <p></p>
+        <div class="badge text-bg-primary-subtle text-wrap" 
+        style="width: 12rem; padding: 1rem; background-color: var(--bs-primary-bg-subtle);">
+            <a href="/viewpost/{{ post[0] }}" 
+            class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover fs-4">{{ post[1] }}</a>
+          </div>
+        <p></p>
+        {% endfor %}
+    </div>
+    <div class="col-3 d-flex flex-column">
+        <div class="fs-2">
+            {% if followers_amount == 0 %}
+                No followers yet.
+            {% else %}
+                {{profile[1]}}'s followers: 
+                <p></p>
+                {% for follower in list_followers %}
+                <p>
+                <div class="badge text-bg-primary-subtle text-wrap" 
+                style="width: 12rem; padding: 1rem; background-color: var(--bs-primary-bg-subtle);">
+                        <a href="/viewprofile/{{ follower[1] }}" 
+                        class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover fs-4">{{follower[0]}}</a>
+                      </div>
+                    <p></p>
+                <p>
+            {% endfor %}
+            {% endif %}
+            <p></p>
 
-<p></p>
+        </div>
+    </div>
+    <div class="col-6 d-flex flex-column">
+        <div class="fs-5">
+            Followers: {{ followers_amount }}
+            <p></p>
+            Total likes: {{ total_likes[0] }}
+            <p></p>
+            {% if cannot_follow %}
+                You are viewing your own profile.
+                <p></p>
+                To view your liked posts click <a href="/liked">here</a>
+            {% elif follow %}
+                You follow user {{profile[1]}}. <a href="/unfollow/{{ profile[0] }}"> Unfollow </a>
+            {% else %}
+                <strong></strong><a href="/follow/{{ profile[0] }}">Follow {{profile[1]}}</a>
 
-{% endfor %}
+            {% endif %}
+            <p></p>
+            <form action="/result" method="GET">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingSearch" name="search" placeholder="Search" required>
+                    <label for="floatingSearch">Search posts or users</label>
+                  </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+                <br>
+                <p></p>
+            </form>
+            <p></p>
+            <strong></strong><a href="/">Go to blog feed</a>
+        </div>
+        </div>
+    </div>
+</div>
 
-Followers: {{ followers_amount }}
-<p></p>
-The followers are: 
-<p>
-{% for follower in list_followers %}
-<p>
-<strong> {{follower[0]}} </strong><a href="/viewprofile/{{ follower[1] }}">View</a>
-
-<p>
-<hr>
-{% endfor %}
-
-
-<p></p>
-
-{% if cannot_follow %}
-    You are viewing your own profile.
-    <p></p>
-    To view your liked posts click <a href="/liked">here</a>
-{% elif follow %}
-    You follow user {{profile[1]}}. <a href="/unfollow/{{ profile[0] }}"> Unfollow </a>
-{% else %}
-    <strong></strong><a href="/follow/{{ profile[0] }}">Follow {{profile[1]}}</a>
-
-{% endif %}
-<p></p>
-<hr>
-<strong></strong><a href="/">Go to blog feed</a>
 {% endblock %}
