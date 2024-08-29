@@ -13,7 +13,6 @@
             <a href="/viewpost/{{ post[0] }}" 
             class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover fs-4">{{ post[1] }}</a>
           </div>
-        <p></p>
         {% endfor %}
     </div>
     <div class="col-3 d-flex flex-column">
@@ -48,6 +47,9 @@
                 You are viewing your own profile.
                 <p></p>
                 To view your liked posts click <a href="/liked">here</a>
+                <p></p>
+                Make a new post <a href="/new">here</a>
+
             {% elif follow %}
                 You follow user {{profile[1]}}. <a href="/unfollow/{{ profile[0] }}"> Unfollow </a>
             {% else %}
