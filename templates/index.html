@@ -1,15 +1,11 @@
 {% extends "layout.html" %}
 {% block title %}Blog feed{% endblock %}
-
 {% block header %} Blog feed {% endblock %}
-
 {% block content %}
-
 {% if session.user_id %}
-
-<div class="container bg-lightblue">
+<div class="container bg-lightblue fs-5">
   <nav class="navbar navbar-expand-sm navbar-light justify-content-center">
-    <a class="navbar-brand" href="#">You are logged in as {{user[0][0]}}.</a>
+    <a class="navbar-brand" >You are logged in as {{user[0][0]}}.</a>
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" href="/new">New post</a>
@@ -29,7 +25,7 @@
       </li>
       {% else %}
       <li class="nav-item">
-        <a class="nav-link" href="/unfilter">View all posts</a>
+        <a class="nav-link" href="/">View all posts</a>
       </li>
       {% endif %}
 
@@ -55,17 +51,22 @@
 
 <div class="container">
 
-<p></p>
-<hr>
-{% for post in posts %}
-<i>Title:<a href="/viewpost/{{ post[0] }}">{{ post[1] }}</a>
-<p>
-<i>User:</i> {{ post[3] }}
-<p>
-<i>Posted:</i> {{ post[4].strftime("%Y-%m-%d") }}
-<p>
-<hr>
-{% endfor %}
+  <p></p>
+  <hr>
+  {% for post in posts %}
+  
+  <p class="fs-3"><a href="/viewpost/{{ post[0] }}" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">{{ post[1] }}</a></p>
+
+  <p>
+  <div class="fs-4">
+    <strong>User:</strong> {{ post[3] }}
+    <p>
+    <strong>Posted:</strong> {{ post[4].strftime("%Y-%m-%d") }}
+    <p>
+    <hr>
+  </div>
+
+  {% endfor %}
 </div>
 
 {% endblock %}
