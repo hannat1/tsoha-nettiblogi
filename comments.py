@@ -25,6 +25,6 @@ def comments(post_id):
                FROM comments C, posts P, users U 
                WHERE C.post_id=P.id AND C.post_id=:post_id 
                AND C.user_id=U.id AND C.visible=TRUE 
-               ORDER BY C.sent_at DESC""")
+               ORDER BY C.sent_at""")
     result = db.session.execute(sql, {"post_id":post_id})
     return result.fetchall()
