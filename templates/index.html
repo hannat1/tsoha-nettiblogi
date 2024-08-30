@@ -28,7 +28,6 @@
         <a class="nav-link" href="/">View all posts</a>
       </li>
       {% endif %}
-
     </ul>
   </nav>
 
@@ -44,19 +43,15 @@
   </nav>
 {% endif %}
 <p></p>
-
-
 <p></p>
 
-
 <div class="container">
-
   <p></p>
   <hr>
   {% for post in posts %}
-  
-  <p class="fs-3"><a href="/viewpost/{{ post[0] }}" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">{{ post[1] }}</a></p>
-
+  <p class="fs-3"><a href="/viewpost/{{ post[0] }}" 
+    class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
+    {{ post[1] }}</a></p>
   <p>
   <div class="fs-4">
     <strong>User:</strong> {{ post[3] }}
@@ -65,8 +60,6 @@
     <p>
     <hr>
   </div>
-
   {% endfor %}
 </div>
-
 {% endblock %}

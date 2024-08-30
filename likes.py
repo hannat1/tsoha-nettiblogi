@@ -1,5 +1,5 @@
-from db import db
 from sqlalchemy.sql import text
+from db import db
 import users
 
 def like(post):
@@ -23,13 +23,14 @@ def unlike(post_id):
 
 def likers(post):
     #Get user ids that like a post
-    sql = text("SELECT U.id FROM users U, likes L WHERE L.user_id=U.id AND L.post_id=:post AND L.visible=TRUE")
+    sql = text("""SELECT U.id FROM users U, likes L
+               WHERE L.user_id=U.id AND L.post_id=:post AND L.visible=TRUE""")
     result = db.session.execute(sql, {"post":post})
     return result.fetchall()
 
 def filter_l():
     user_id = users.user_id()
-    sql = text("""SELECT DISTINCT P.id, P.title, P.content, U.username, P.sent_at  
+    sql = text("""SELECT DISTINCT P.id, P.title, P.content, U.username, P.sent_at
                FROM posts P 
                JOIN users U ON P.user_id=U.id 
                JOIN likes L ON P.id=L.post_id 
@@ -41,7 +42,7 @@ def filter_l():
     return result.fetchall()
 
 def total_likes(user_id):
-    sql = text("""SELECT COUNT(L.id) 
+    sql = text("""SELECT COUNT(L.id)
                FROM likes L
                JOIN posts P ON P.id=L.post_id
                JOIN users U ON U.id=P.user_id
@@ -51,4 +52,3 @@ def total_likes(user_id):
         """)
     result = db.session.execute(sql, {"user_id":user_id})
     return result.fetchone()
-
