@@ -15,7 +15,7 @@
                 Sent at: {{ comment[3].strftime("%Y-%m-%d %H:%M:%S") }}
             </p>
                 {% if comment[1] == user %}
-                <a href="/del_comment/{{ post[0] }}/{{ comment[4] }}"> Delete comment </a>
+                <a class="col-3 btn btn-outline-danger btn" role="button" href="/del_comment/{{ post[0] }}/{{ comment[4] }}"> Delete comment </a>
                 {% endif %}
             <hr>
         {% endfor %}
@@ -42,17 +42,18 @@
         </div>
         <div class="fs-5">
             {% if liked %}
-                You like this post. <a href="/unlike/{{ post[0] }}"> Unlike </a>
+                You like this post. <a class="btn btn-outline-danger" role="button" href="/unlike/{{ post[0] }}">Unlike {{post[1]}}</a>
             {% else %}
-                <strong></strong><a href="/like/{{ post[0] }}">Like {{post[1]}}</a>
+                <a class="btn btn-outline-success" role="button" href="/like/{{ post[0] }}">Like {{post[1]}}</a>
             <p></p>
             {% endif %}
             <p></p>
             {% if post[4] == user %}
-            <a href="/del_post/{{ post[0] }}"> Delete post </a>
+            <a class="btn btn-outline-danger" role="button" href="/del_post/{{ post[0] }}"> Delete post </a>
             {% endif %}
             <p></p>
-            <strong></strong><a href="/">Go to blog feed</a>
+            <a class="btn btn-outline-secondary" role="button" href="/">Go to blog feed</a>
+
         </div>
     </div>
 </div>
