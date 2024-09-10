@@ -164,15 +164,16 @@ def filter_liked():
     liked_posts = likes.filter_l()
     return render_template("liked.html", liked_posts=liked_posts, user=user_id)
 
-
-@app.route("/search", methods=["GET", "POST"])
+@app.route("/search")
 def search():
-    if request.method == "GET":
-        content = request.args["search"]
-        result_posts = posts.search_post(content)
-        result_users = users.search_user(content)
-        return render_template("result.html", search=content, posts=result_posts, users=result_users)
     return render_template("search.html")
+
+@app.route("/result", methods=["GET"])
+def search_result():
+    content = request.args["search"]
+    result_posts = posts.search_post(content)
+    result_users = users.search_user(content)
+    return render_template("result.html", search=content, posts=result_posts, users=result_users)
 
 @app.route("/del_account", methods=["GET", "POST"])
 def delete_account():
@@ -184,4 +185,5 @@ def delete_account():
                 users.logout()
                 return redirect("/")
         return redirect(url_for("view_profile", user_id=user_id))
+
     return render_template("delete_account.html")
