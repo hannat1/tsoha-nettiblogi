@@ -1,11 +1,41 @@
 {% extends "layout.html" %}
-{% block title %}Blog feed{% endblock %}
+{% block title %}Profile{% endblock %}
 {% block header %} <p class="text-uppercase">{{profile[1]}}</p>{% endblock %}
 {% block content %}
+
+{% if cannot_follow %}
+<div class="container fs-5">
+    <nav class="navbar navbar-expand-sm navbar-light justify-content-center">
+      <a class="navbar-brand" >You are viewing your own profile.</a>
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/new">Make a new post</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/liked">View your liked posts</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">Log out</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/del_account">Delete your account</a>
+        </li>
+
+      </ul>
+    </nav>
+</div>  
+{% endif %}
+
+
 
 <div class="row g-3 align-items-stretch">
     <div class="col-3 d-flex flex-column">
         <p class="fs-2">{{profile[1]}}'s posts:</p>
+        {% if posts|length == 0 %}
+          No posts yet.
+        {% else %}
         {% for post in posts %}
         <p></p>
         <div class="badge text-bg-primary-subtle text-wrap" 
@@ -14,6 +44,7 @@
             class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover fs-4">{{ post[1] }}</a>
           </div>
         {% endfor %}
+        {% endif %}
     </div>
     <div class="col-3 d-flex flex-column">
         <div class="fs-2">
@@ -39,23 +70,17 @@
     </div>
     <div class="col-6 d-flex flex-column">
         <div class="fs-5">
+          <p></p>
             Followers: {{ followers_amount }}
             <p></p>
             Total likes: {{ total_likes[0] }}
             <p></p>
             {% if cannot_follow %}
-                You are viewing your own profile.
-                <p></p>
-                To view your liked posts click <a href="/liked">here</a>
-                <p></p>
-                Make a new post <a href="/news">here</a>
-                <p></p>
-                Log out <a href="/logout">here</a>
-
+            <p></p>
             {% elif follow %}
-                You follow user {{profile[1]}}. <a href="/unfollow/{{ profile[0] }}"> Unfollow </a>
+                You follow user {{profile[1]}}. <a class="btn btn-outline-danger" role="button" href="/unfollow/{{ profile[0] }}"> Unfollow </a>
             {% else %}
-                <strong></strong><a href="/follow/{{ profile[0] }}">Follow {{profile[1]}}</a>
+                <a class="btn btn-outline-success" role="button" href="/follow/{{ profile[0] }}">Follow {{profile[1]}}</a>
 
             {% endif %}
             <p></p>
@@ -69,7 +94,7 @@
                 <p></p>
             </form>
             <p></p>
-            <strong></strong><a href="/">Go to blog feed</a>
+            <a class="btn btn-outline-secondary" role="button" href="/">Go to blog feed</a>
         </div>
         </div>
     </div>
