@@ -48,6 +48,9 @@
 <div class="container">
   <p></p>
   <hr>
+  {% if posts|length == 0 %}
+      No posts yet. Be the first to make one!
+  {% else %}
   {% for post in posts %}
   <p class="fs-3"><a href="/viewpost/{{ post[0] }}" 
     class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
@@ -61,5 +64,6 @@
     <hr>
   </div>
   {% endfor %}
+  {% endif %}
 </div>
 {% endblock %}
