@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block title %}Delete account{% endblock %}
+{% block header %} Delete your account? {% endblock %}
+{% block content %}
+
+<p>Are you sure you want to delete your account?</p>
+<form action="/del_account" method="post">
+    <input type="radio" name="confirmation" value="yes" required> Yes, I'm sure <br> 
+    <input type="radio" name="confirmation" value="no" required> No, cancel <br> 
+    <br>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+
+</form>
+
+{% endblock %}
