@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}Blog feed{% endblock %}
+{% block title %}Results{% endblock %}
 {% block header %} Results for search {{ search }} : {% endblock %}
 {% block content %}
 
@@ -31,8 +31,8 @@
 </div>
 
 <p></p>
-<a href="/">Go to back to blog feed</a>
+<a class="btn btn-outline-primary" role="button" href="/search">Go back to search</a>
 <p></p>
-<a href="/search">Go to back to search</a>
+<a class="btn btn-outline-secondary" role="button" href="/">Go to blog feed</a>
 <p></p>
 {% endblock %}
