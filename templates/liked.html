@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}Blog feed{% endblock %}
+{% block title %}Liked posts{% endblock %}
 {% block header %}
 Posts you have liked: {% endblock %}
 {% block content %}
@@ -8,7 +8,7 @@ Posts you have liked: {% endblock %}
 <div class="container">
     <p></p>
     <div class="text-end">
-        <a class="fs-5" href="/viewprofile/{{ user }}">Go back to your profile</a>
+        <a class="btn btn-outline-secondary" role="button" href="/viewprofile/{{ user }}">Go back to your profile</a>
     <p></p>
     </div>
     <p></p>
