@@ -3,16 +3,15 @@ from db import db
 import users
 
 def feed():
-    #Feed view
     sql = text("""SELECT P.id, P.title, P.content, U.username, P.sent_at
-               FROM posts P, users U 
-               WHERE P.user_id=U.id AND P.visible=TRUE 
+               FROM posts P
+               JOIN users U ON P.user_id=U.id
+               WHERE U.visible=TRUE AND P.visible=TRUE 
                ORDER BY P.sent_at DESC""")
     result = db.session.execute(sql)
     return result.fetchall()
 
 def send(title, content):
-    #Make new post
     user_id = users.user_id()
     if user_id == 0:
         return False
@@ -23,14 +22,12 @@ def send(title, content):
     return True
 
 def selectpost(post_id):
-    #Select post for viewing
     sql = text("""SELECT P.id, P.title, P.content, U.username, U.id, P.sent_at
                FROM posts P, users U WHERE P.id =:post_id AND P.user_id=U.id""")
     result = db.session.execute(sql, {"post_id":post_id})
     return result.fetchone()
 
 def users_posts(user_id):
-    #Select all posts of a user
     sql = text("""SELECT P.id, P.title, P.content, P.sent_at
                FROM posts P WHERE P.user_id=:user_id AND P.visible=TRUE
                ORDER BY P.sent_at DESC""")
@@ -38,17 +35,15 @@ def users_posts(user_id):
     return result.fetchall()
 
 def delete_post(post_id):
-    #Delete post
     sql = text("UPDATE posts SET visible=FALSE WHERE id=:post_id")
     db.session.execute(sql, {"post_id":post_id})
     db.session.commit()
     return True
 
 def search_post(search):
-    #Search
     sql = text("""SELECT P.id, P.title, P.content, P.user_id, U.username
                 FROM posts P, users U
-                WHERE P.visible = TRUE 
+                WHERE P.visible=TRUE AND U.visible=TRUE
                 AND U.id=P.user_id
                 AND
                 (lower(title) LIKE lower(:search)
