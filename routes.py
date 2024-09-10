@@ -46,7 +46,6 @@ def login():
         password = request.form["password"]
         if users.login(username, password):
             return redirect("/")
-        return render_template("error.html", message="Wrong password or username")
     return render_template("error.html", message="Wrong password or username")
 
 @app.route("/logout")
@@ -83,7 +82,7 @@ def view_post(post_id):
         if current_user == i[0]:
             liked = True
     return render_template("/post.html", user=current_user, post=post,
-                           liked = liked, comments=list_comments, likes_amount= len(likers))
+                           liked=liked, comments=list_comments, likes_amount= len(likers))
 
 @app.route("/like/<int:post_id>")
 def like(post_id):
@@ -112,8 +111,8 @@ def view_profile(user_id):
         if current_user == i[1]:
             followed = True
     return render_template("/profile.html", profile=profile, posts=list_posts,
-                           followers_amount=len(list_followers), list_followers= list_followers,
-                           follow = followed, cannot_follow=cannot_follow, total_likes=total_likes)
+                           followers_amount=len(list_followers), list_followers=list_followers,
+                           follow=followed, cannot_follow=cannot_follow, total_likes=total_likes)
 
 @app.route("/follow/<int:user_id>")
 def follow(user_id):
@@ -156,8 +155,8 @@ def filter_following():
     user_id = users.user_id()
     username = users.user_name(user_id)
     followed_posts = follows.filter_f()
-    return render_template("index.html", posts = followed_posts,
-                           user=(username, user_id), filter = feed_filter)
+    return render_template("index.html", posts=followed_posts,
+                           user=(username, user_id), filter=feed_filter)
 
 @app.route("/liked")
 def filter_liked():
@@ -165,13 +164,25 @@ def filter_liked():
     liked_posts = likes.filter_l()
     return render_template("liked.html", liked_posts=liked_posts, user=user_id)
 
-@app.route("/search")
+
+@app.route("/search", methods=["GET", "POST"])
 def search():
+    if request.method == "GET":
+        content = request.args["search"]
+        result_posts = posts.search_post(content)
+        result_users = users.search_user(content)
+        return render_template("result.html", search=content, posts=result_posts, users=result_users)
     return render_template("search.html")
 
-@app.route("/result", methods=["GET"])
-def search_result():
-    content = request.args["search"]
-    result_posts = posts.search_post(content)
-    result_users = users.search_user(content)
-    return render_template("result.html", search=search, posts=result_posts, users=result_users)
+@app.route("/del_account", methods=["GET", "POST"])
+def delete_account():
+    if request.method == "POST":
+        confirmation = request.form["confirmation"]
+        user_id = users.user_id()
+        if confirmation == "yes":
+            if users.del_user(user_id):
+                users.logout()
+                return redirect("/")
+        return redirect(url_for("view_profile", user_id=user_id))
+
+    return render_template("delete_account.html")
