@@ -184,5 +184,4 @@ def delete_account():
                 users.logout()
                 return redirect("/")
         return redirect(url_for("view_profile", user_id=user_id))
-
     return render_template("delete_account.html")
