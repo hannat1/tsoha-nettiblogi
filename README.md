@@ -15,14 +15,21 @@ Sovelluksessa voi siis
 
 ## Käynnistysohjeet
 Kloonaa tämä repositorio ja siirry repositorion juurihakemistoon omalla koneellasi. Luo kansioon .env tiedosto ja lisää tiedostoon seuraavat tiedot:
+
 DATABASE_URL=<tietokannan-paikallinen-osoite>
+
 SECRET_KEY=<salainen-avain>
+
 Salaisen avaimen voit luoda terminaalissa esimerkiksi näin:
+
 $ python3
+
 >>> import secrets
+
 >>> secrets.token_hex(16)
-'b83e4fc8226809f52eaf6a95dbafe061'
->>>
+
+>>> 'b83e4fc8226809f52eaf6a95dbafe061'
+
 
 Sitten aktivoidaan virtuaaliympäristö seuraavasti:
 $ python3 -m venv venv
