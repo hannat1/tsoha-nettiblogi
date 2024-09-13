@@ -4,7 +4,6 @@
 Posts you have liked: {% endblock %}
 {% block content %}
 
-
 <div class="container">
     <p></p>
     <div class="text-end">
@@ -13,10 +12,10 @@ Posts you have liked: {% endblock %}
     </div>
     <p></p>
     <hr>
+
     {% for post in liked_posts %}
     
     <p class="fs-3"><a href="/viewpost/{{ post[0] }}" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">{{ post[1] }}</a></p>
-  
     <p>
     <div class="fs-4">
       <strong>User:</strong> {{ post[3] }}
@@ -25,9 +24,7 @@ Posts you have liked: {% endblock %}
       <p>
       <hr>
     </div>
-  
     {% endfor %}
   </div>
-
 
 {% endblock %}
